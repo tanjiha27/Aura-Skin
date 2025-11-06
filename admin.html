@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Aura Skin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url("image/p3.jpg")no-repeat center/cover;
+            justify-content: center;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #cc338b 0%, 	#eea1cd  100%);
+            color: rgb(10, 10, 10);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-family: 'Algerian',serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-name {
+            font-size: 20px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: rgb(13, 13, 13);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgb(253, 251, 251);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #97356d;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .products-icon { background: #e74c3c; }
+        .orders-icon { background: #27ae60; }
+        .users-icon { background: #f39c12; }
+        .revenue-icon { background: #9b59b6; }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #eea1cd 0%, #cc338b 100%);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .success-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .warning-btn {
+            background: #f39c12;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .welcome-message {
+            background: linear-gradient(135deg, #eea1cd 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .welcome-message h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-message p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .table {
+                font-size: 14px;
+            }
+
+            .table th,
+            .table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1> ✨  Aura Skin Admin</h1>
+            </div>
+            <div class="admin-info">
+                <span class="admin-name">Welcome, Admin</span>
+                <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-message">
+            <h2>Dashboard Overview</h2>
+            <p>Manage your Aura Skin makeup store efficiently</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon products-icon">🛍️</div>
+                    <div class="card-title">Total Products</div>
+                </div>
+                <div class="card-value">156</div>
+                <div class="card-description">Active products in catalog</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon orders-icon">📦</div>
+                    <div class="card-title">Orders Today</div>
+                </div>
+                <div class="card-value">23</div>
+                <div class="card-description">New orders received</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon users-icon">👥</div>
+                    <div class="card-title">Total Customers</div>
+                </div>
+                <div class="card-value">1,247</div>
+                <div class="card-description">Registered users</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon revenue-icon">💰</div>
+                    <div class="card-title">Monthly Revenue</div>
+                </div>
+                <div class="card-value">$12,450</div>
+                <div class="card-description">This month's earnings</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="action-buttons">
+                <a href="product.html" class="action-btn primary-btn">View Products</a>
+                <button class="action-btn success-btn" onclick="showMessage('Adding new product...')">Add New Product</button>
+                <button class="action-btn warning-btn" onclick="showMessage('Managing orders...')">Manage Orders</button>
+                <button class="action-btn secondary-btn" onclick="showMessage('Viewing customers...')">View Customers</button>
+                <button class="action-btn primary-btn" onclick="showMessage('Generating reports...')">Generate Reports</button>
+                <button class="action-btn secondary-btn" onclick="showMessage('Opening settings...')">Settings</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Recent Orders</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD-001</td>
+                        <td>Sarah Johnson</td>
+                        <td>Glowing Foundation</td>
+                        <td>$45.99</td>
+                        <td><span class="status-badge status-active">Delivered</span></td>
+                        <td>2024-03-15</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-002</td>
+                        <td>Emma Wilson</td>
+                        <td>Radiant Lipstick</td>
+                        <td>$28.50</td>
+                        <td><span class="status-badge status-pending">Processing</span></td>
+                        <td>2024-03-14</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-003</td>
+                        <td>Maria Garcia</td>
+                        <td>Eye Shadow Palette</td>
+                        <td>$67.00</td>
+                        <td><span class="status-badge status-active">Shipped</span></td>
+                        <td>2024-03-14</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-004</td>
+                        <td>Lisa Chen</td>
+                        <td>Moisturizing Cream</td>
+                        <td>$39.99</td>
+                        <td><span class="status-badge status-pending">Pending</span></td>
+                        <td>2024-03-13</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in when page loads
+        window.addEventListener('load', function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const loginTime = sessionStorage.getItem('loginTime');
+            
+            // Check if user is logged in and session hasn't expired (24 hours)
+            if (!isLoggedIn || !loginTime || (new Date().getTime() - parseInt(loginTime) > 24 * 60 * 60 * 1000)) {
+                alert('Please login to access the admin panel.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update the dashboard with real-time data (simulate)
+            updateDashboard();
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('loginTime');
+                alert('You have been logged out successfully.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function showMessage(message) {
+            alert(message);
+        }
+
+        function updateDashboard() {
+            // Simulate real-time updates
+            const cards = document.querySelectorAll('.card-value');
+            
+            // Add some animation to the numbers
+            cards.forEach(card => {
+                card.style.opacity = '0.7';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 200);
+            });
+        }
+
+        // Auto-refresh dashboard every 30 seconds (in a real app, you'd fetch from server)
+        setInterval(updateDashboard, 30000);
+
+        // Add some interactivity to the table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const orderId = this.querySelector('td').textContent;
+                    showMessage(`Viewing details for order ${orderId}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

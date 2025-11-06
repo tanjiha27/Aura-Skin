@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Aura Skin</title>
+    <link rel="stylesheet" href="style.css">
+ 
+    <style>
+        /* Additional CSS for Products Page */
+        .products-hero {
+            background:  url("image/p2.jpg") no-repeat center center/cover;
+            padding: 120px 0 60px;
+            justify-content: center;
+            height:fit-content;
+            text-align: center;
+            color: #4a148c;
+        }
+
+        .products-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .products-hero p {
+            font-size: 1.2rem;
+            color: #6d4c7d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Category Filter Tabs */
+        .category-tabs {
+            background: #fce4ec;
+            padding: 2rem 0;
+            text-align: center;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.7);
+            color: #6d4c7d;
+            border: 2px solid #f48fb1;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: #f48fb1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Products Grid */
+        .products-section {
+            padding: 4rem 2rem;
+            background: rgba(252, 228, 236, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 🖼️ PRODUCT CARD - WHERE YOUR PRODUCT IMAGES GO */
+        .product-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(244, 143, 177, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(244, 143, 177, 0.3);
+        }
+
+        /* 📸 PRODUCT IMAGE CONTAINER */
+        .product-image {
+            height: 250px; 
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /*PRODUCT IMAGES - */
+        .product-image.cleanser { background-image: url('image/cleanser1.jpg'); }
+        .product-image.moisturizer { background-image: url('image/moisturizer.jpg'); }
+        .product-image.serum { background-image: url('image/serum.jpg'); }
+        .product-image.sunscreen { background-image: url('image/sunscreen.jpg'); }
+        .product-image.toner { background-image: url('image/toner1.jpg'); }
+        .product-image.mask { background-image: url('image/mask.jpg'); }
+
+        .product-image.foundation { background-image: url('image/foundation.jpg'); }
+        .product-image.lipstick { background-image: url('image/lipstick.jpg'); }
+        .product-image.eyeshadow { background-image: url('image/eyeshadow.jpg'); }
+        .product-image.mascara { background-image: url('image/mascara.jpg'); }
+        .product-image.blush { background-image: url('image/blush.jpg'); }
+        .product-image.concealer { background-image: url('image/concealer.jpg'); }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.3));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            color: #4a148c;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .product-description {
+            color: #6d4c7d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        .rating {
+            color: #f48fb1;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #f48fb1, #fce4ec);
+            color: #4a148c;
+            border: 2px solid #f48fb1;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #f48fb1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Category Visibility */
+        .product-card {
+            display: block; 
+             
+        }
+
+        .product-card.hidden {
+            display: none;
+        }
+
+        /* Search Bar */
+        .products-search {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 12px 20px;
+            border: 2px solid #f48fb1;
+            border-radius: 50px;
+            outline: none;
+            font-size: 1rem;
+            color: #6d4c7d;
+        }
+
+        .search-input::placeholder {
+            color: rgba(109, 76, 125, 0.7);
+        }
+
+        /* Badge for categories */
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f48fb1;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .products-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-buttons {
+                gap: 0.5rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .search-input {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        /* Cart Modal Styles - এই পুরো কোড তোমার <style> tag এর মধ্যে add করো */
+.cart-modal {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 450px;
+    height: 100vh;
+    background: white;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+    transition: right 0.4s ease;
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.cart-modal.active {
+    right: 0;
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1999;
+}
+
+.cart-overlay.active {
+    display: block;
+}
+
+.cart-header {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #000;
+}
+
+.cart-header h2 {
+    font-size: 1.5rem;
+}
+
+.close-cart {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #000;
+}
+
+.cart-body {
+    padding: 20px;
+    min-height: calc(100vh - 300px);
+}
+
+.cart-empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #666;
+}
+
+.cart-empty i {
+    font-size: 4rem;
+    color: #fecfef;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f0f0f0;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: #ff9a9e;
+    font-weight: bold;
+}
+
+.cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.qty-btn {
+    background: #fecfef;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.qty-btn:hover {
+    background: #ff9a9e;
+}
+
+.remove-item {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.cart-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 20px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.cart-total-price {
+    color: #ff9a9e;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #ff9a9e, #fecfef);
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.checkout-btn:hover {
+    transform: translateY(-2px);
+}
+
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cart-modal {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+            <button class="close-cart" onclick="closeCart()">×</button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="cart-total-price" id="cartTotal">৳0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                <i class="fas fa-lock"></i> Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Header (same as homepage) -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">✨ Aura Skin</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html" class="active">Products</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search products...">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <!-- 🛒 Unicode Cart Icon -->
+          <a href="cart.html" class="cart-icon">🛒
+            <span class="cart-count" id="cart-count">0</span> 
+          </a>
+            
+            </div>
+        </nav>
+    </header>
+
+    <!-- Products Hero Section -->
+    <section class="products-hero">
+        <h1>Our Premium  Collection</h1>
+        <p>Discover our premium skincare and makeup products designed to enhance your natural beauty</p>
+    </section>
+
+    <!-- Category Filter Tabs -->
+    <section class="category-tabs">
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-category="all">All Products</button>
+                <button class="tab-btn" data-category="skincare">Skincare</button>
+                <button class="tab-btn" data-category="makeup">Makeup</button>
+                <button class="tab-btn" data-category="bestsellers">Best Sellers</button>
+                <button class="tab-btn" data-category="new">New Arrivals</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="products-search">
+                <input type="text" class="search-input" placeholder="🔍 Search for products..." id="product-search">
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid">
+                
+                <!-- SKINCARE PRODUCTS -->
+                <div class="product-card" data-category="skincare">
+                    <div class="product-image cleanser">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Skincare</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>ATOMY ECO MILD BUBBLE CLEANSER</h3>
+                        <p class="product-description">Deep cleansing foam that removes impurities while maintaining skin's natural moisture barrier.</p>
+                        <div class="product-price">
+                            <span class="price">৳1200</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.8)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Gentle Foam Cleanser', 1200 , 'image/cleanser.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="skincare bestsellers">
+                    <div class="product-image moisturizer">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>COSNORI Panthenol Barrier Moisturizer</h3>
+                        <p class="product-description">24-hour hydration with hyaluronic acid and natural ceramides for smooth, supple skin.</p>
+                        <div class="product-price">
+                            <span class="price">৳2800</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Hydrating Moisturizer', 2800,'image/moisturizer.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="skincare new">
+                    <div class="product-image serum">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">New</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>ANUA PEACH NIACIN Serum</h3>
+                        <p class="product-description">Powerful antioxidant serum that brightens skin and reduces signs of aging.</p>
+                        <div class="product-price">
+                            <span class="price">৳2700</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.7)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Vitamin C Serum', 2700,'image/serum.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="skincare">
+                    <div class="product-image sunscreen">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Skincare</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> Dailt Go TO Sunscreen (SPF 50++)</h3>
+                        <p class="product-description">Lightweight, non-greasy sunscreen with broad-spectrum protection.</p>
+                        <div class="product-price">
+                            <span class="price">৳1500</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.5)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'SPF 50 Sunscreen', 1500,'image/sunscreen.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="skincare">
+                    <div class="product-image toner">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Skincare</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>CENTELLA TEA-TRICA Purifving  Toner</h3>
+                        <p class="product-description">Refreshing toner with natural rose water to balance and hydrate skin.</p>
+                        <div class="product-price">
+                            <span class="price">৳2500</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.6)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Rose Water Toner', 2500,'image/toner1.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="skincare new">
+                    <div class="product-image mask">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">New</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> OLIVE Hydrating Face Mask</h3>
+                        <p class="product-description">Weekly treatment mask with aloe vera and hyaluronic acid for deep hydration.</p>
+                        <div class="product-price">
+                            <span class="price">৳750</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.4)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Hydrating Face Mask', 750,'image/mask.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MAKEUP PRODUCTS -->
+                <div class="product-card" data-category="makeup bestsellers">
+                    <div class="product-image foundation">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> Rare Beauty Flawless Foundation</h3>
+                        <p class="product-description">Full coverage foundation with buildable formula for a natural, radiant finish.</p>
+                        <div class="product-price">
+                            <span class="price">৳4000</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.8)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Flawless Foundation', 4000,'image/foundation.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="makeup">
+                    <div class="product-image lipstick">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Makeup</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> SUMMER FRIDAYS Matte Lipstick</h3>
+                        <p class="product-description">Long-lasting matte lipstick with intense color payoff and comfortable wear.</p>
+                        <div class="product-price">
+                            <span class="price">৳580</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.3)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Matte Lipstick', 580,'image/lipstick.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="makeup new">
+                    <div class="product-image eyeshadow">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">New</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> Dasique Eyeshadow Palette</h3>
+                        <p class="product-description">12-shade eyeshadow palette with matte and shimmer finishes for endless looks.</p>
+                        <div class="product-price">
+                            <span class="price">৳1400</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.7)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Eyeshadow Palette', 1400,'image/eyeshadow.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="makeup">
+                    <div class="product-image mascara">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Makeup</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>CONSORI Perfect Setting  Mascara</h3>
+                        <p class="product-description">Volumizing mascara that lengthens and defines lashes without clumping.</p>
+                        <div class="product-price">
+                            <span class="price">৳1100</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.2)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Volume Mascara', 1100,'image/mascara.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="makeup">
+                    <div class="product-image blush">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Makeup</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> MOIRA Natural Blush</h3>
+                        <p class="product-description">Soft, buildable blush that adds a natural flush of color to cheeks.</p>
+                        <div class="product-price">
+                            <span class="price">৳950</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.5)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Natural Blush', 950,'image/blush.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="makeup">
+                    <div class="product-image concealer">
+                        <div class="product-overlay"></div>
+                        <div class="category-badge">Makeup</div>
+                    </div>
+                    <div class="product-info">
+                        <h3> elf 16HR CAMO Concealer</h3>
+                        <p class="product-description">High-coverage concealer that hides imperfections and brightens under-eyes.</p>
+                        <div class="product-price">
+                            <span class="price">৳3000</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(4.1)</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(event,'Full Coverage Concealer', 3000,'image/concealer.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as homepage) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="products.html?category=skincare">Skincare</a></li>
+                    <li><a href="products.html?category=makeup">Makeup</a></li>
+                    <li><a href="products.html?category=new">New Arrivals</a></li>
+                    <li><a href="products.html?category=bestsellers">Best Sellers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p style="margin-top: 1rem;">📧 info@auraskin.com</p>
+                <p>📞 +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Aura Skin. All rights reserved. Made with 💜 for beautiful skin.</p>
+        </div>
+    </footer>
+
+    <script>
+        
+    // Shopping Cart - In-memory storage
+    let cart = [];
+
+    // Update cart count
+    function updateCartCount() {
+        const cartCount = document.getElementById('cart-count');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+    }
+
+    // Toggle cart modal
+    function toggleCart() {
+        const modal = document.getElementById('cartModal');
+        const overlay = document.getElementById('cartOverlay');
+        modal.classList.toggle('active');
+        overlay.classList.toggle('active');
+        updateCartDisplay();
+    }
+
+    // Close cart
+    function closeCart() {
+        document.getElementById('cartModal').classList.remove('active');
+        document.getElementById('cartOverlay').classList.remove('active');
+    }
+
+    // Add to cart function - Fix করা version
+    function addToCart(event, productName, price,image) {
+        event.preventDefault();
+         let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingItem = cart.find(item => item.name === productName);
+        
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({
+                id: Date.now(),
+                name: productName,
+                price: price,
+                image: image,
+                quantity: 1
+            });
+        }
+
+        // Save to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+       
+        updateCartCount();
+        
+        // Visual feedback
+        const button = event.currentTarget;
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Added!';
+        button.style.background = '#4caf50';
+        
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.style.background = '';
+        }, 2000);
+    }
+
+    // Update quantity
+    function updateQuantity(id, change) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                removeFromCart(id);
+            } else {
+                updateCartDisplay();
+                updateCartCount();
+            }
+        }
+    }
+
+    // Remove from cart
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        updateCartDisplay();
+        updateCartCount();
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+        const cartBody = document.getElementById('cartBody');
+        const cartTotal = document.getElementById('cartTotal');
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotal.textContent = `৳${total.toFixed(2)}`;
+        
+        if (cart.length === 0) {
+            cartBody.innerHTML = `
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some products to get started!</p>
+                </div>
+            `;
+        } else {
+            cartBody.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-img"></div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">৳${item.price.toFixed(2)}</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Checkout
+    function checkout() {
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        alert(`Order placed successfully!\n\nTotal: ৳${total.toFixed(2)}\n\nThank you for shopping! 💜`);
+        
+        cart = [];
+        updateCartDisplay();
+        updateCartCount();
+        closeCart();
+    }
+
+    // Category Filter Functionality cat te niye jabe
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const productCards = document.querySelectorAll('.product-card');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const category = button.getAttribute('data-category');
+            
+            productCards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardCategories = card.getAttribute('data-category');
+                    if (cardCategories.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('product-search');
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        productCards.forEach(card => {
+            const productName = card.querySelector('h3').textContent.toLowerCase();
+            const productDescription = card.querySelector('.product-description').textContent.toLowerCase();
+            
+            if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+
+    // Cart icon click handler
+    document.querySelector('.cart-icon').addEventListener('click', toggleCart);
+
+    // Page load
+    window.addEventListener('load', () => {
+          const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+        cart = JSON.parse(storedCart);
+    }
+    updateCartCount();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        
+        if (category) {
+            const targetTab = document.querySelector(`[data-category="${category}"]`);
+            if (targetTab) {
+                targetTab.click();
+            }
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

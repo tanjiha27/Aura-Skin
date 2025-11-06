@@ -1,0 +1,630 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Aura Skin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url("image/admin3.jpg") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 17px;
+        }
+
+        .login-container {
+            background: #FFFFFF;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            color: #764ba2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #cc338b 0%,#eea1cd 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(231, 76, 60, 0.1);
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(39, 174, 96, 0.1);
+            display: none;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #667eea;
+        }
+
+        .demo-section {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .demo-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .demo-section p {
+            color: #666;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .demo-credentials {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .demo-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: #764ba2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .signup-link a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>✨ Aura Skin</h1>
+            <p>Welcome Back</p>
+        </div>
+
+        <div class="demo-section">
+            <h3> Test Accounts:</h3>
+            <p>Click to auto-fill credentials:</p>
+            <div class="demo-credentials">
+                <button type="button" class="demo-btn" onclick="fillCredentials('user@aura.com', 'user123')">
+                     Customer
+                </button>
+                <button type="button" class="demo-btn" onclick="fillCredentials('admin@aura.com', 'admin123')">
+                     Admin
+                </button>
+            </div>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="loading-spinner" id="loadingSpinner"></span>
+                <span id="loginText">Sign In</span>
+            </button>
+        </form>
+
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <div class="forgot-password">
+            <a href="#" onclick="showForgotPassword()">Forgot your password?</a>
+        </div>
+
+        <div class="signup-link">
+            Don't have an account? <a href="signup.html">Create Account</a>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Homepage</a>
+        </div>
+    </div>
+
+    <script>
+        //  API Class - Universal Login System
+        class AuraAPI {
+            constructor() {
+                this.baseURL = 'http://localhost:3000/api';
+                
+                // Mock Database with different user roles
+                this.mockDatabase = {
+                    users: [
+                        {
+                            id: 1,
+                            email: 'mimi@gmail.com',
+                            password: 'C243491',
+                            name: 'Afrin Mimi',
+                            role: 'customer',
+                        
+                        },
+                        {
+                            id: 2,
+                            email: 'fatema@gmail.com',
+                            password: 'C243407',
+                            name: 'Admin Manager',
+                            role: 'admin',
+                        
+                        },
+                        {
+                            id: 3,
+                            email: 'test@gmail.com',
+                            password: 'test123',
+                            name: 'Test User',
+                            role: 'customer',
+                            avatar: '🧑‍💼'
+                        }
+                    ]
+                };
+            }
+
+            // 🔐 Universal Login Function
+            //প্রথমে backend API call করবে।
+            //যদি network fail হয়, mock API call করবে।
+            async login(email, password) {
+                console.log('🚀 Starting login for:', email);
+                
+                try {
+                    // First try real backend
+                    return await this.callRealAPI(email, password);
+                } catch (error) {
+                    console.log('⚠️ Using Mock API');
+                    // Fallback to mock
+                    return await this.callMockAPI(email, password); //mock api call//
+                }
+            }
+
+            // 🌐 Real Backend API Call
+            async callRealAPI(email, password) {
+                const response = await fetch(`${this.baseURL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    return {
+                        success: true,
+                        token: data.token,
+                        user: data.user,
+                        message: 'Login successful'
+                    };
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            }
+
+            // 🎭 Mock API Function
+            //backend না পেলে fake login handle করা।
+            async callMockAPI(email, password) {
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1200));
+
+                // Find user in mock database
+                const user = this.mockDatabase.users.find(u => 
+                    u.email.toLowerCase() === email.toLowerCase() && 
+                    u.password === password
+                );
+
+                if (user) {
+                    const token = this.generateMockToken(user);
+                    
+                    return {
+                        success: true,
+                        token: token,
+                        user: {
+                            id: user.id,
+                            email: user.email,
+                            name: user.name,
+                            role: user.role,
+                            avatar: user.avatar
+                        },
+                        message: `Welcome back, ${user.name}! 🎉`
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: 'Invalid email or password. Please try again.'
+                    };
+                }
+            }
+
+            // 🎫 Generate JWT Token
+            generateMockToken(user) {
+                const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+                const payload = btoa(JSON.stringify({
+                    id: user.id,
+                    email: user.email,
+                    role: user.role,
+                    iat: Date.now(),
+                    exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+                }));
+                const signature = btoa('aura-skin-signature');
+                return `${header}.${payload}.${signature}`;
+            }
+
+            // ✅ Validate Token
+            async validateToken(token) {
+                if (!token) return false;
+                
+                try {
+                    const response = await fetch(`${this.baseURL}/auth/validate`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    return response.ok;
+                } catch (error) {
+                    // Mock validation - check if token is properly formatted
+                    const parts = token.split('.');
+                    return parts.length === 3 && parts[0] && parts[1] && parts[2];
+                }
+            }
+
+            // 🚪 Logout Function
+            async logout() {
+                sessionStorage.clear();
+                localStorage.clear();
+                return { success: true, message: 'Logged out successfully' };
+            }
+        }
+
+        // 🎮 Initialize API back end er shate connect
+        const auraAPI = new AuraAPI();
+
+        // 🎯 DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const loginText = document.getElementById('loginText');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // 📝 Fill Demo Credentials
+        function fillCredentials(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+            
+            // Add visual feedback
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.style.borderColor = '#27ae60';
+                setTimeout(() => {
+                    input.style.borderColor = '#ddd';
+                }, 1000);
+            });
+        }
+
+        
+
+        // 🎯 Main Login Handler
+loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    
+    hideMessages();
+    
+    // Validate inputs
+    if (!email || !password) {
+        showError('Please fill in all fields');
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        showError('Please enter a valid email address');
+        return;
+    }
+    
+    setLoading(true);
+    
+    try {
+        console.log('🔑 Attempting login...');
+        
+        // Call Universal Login API
+        const result = await auraAPI.login(email, password);
+
+        // ✅ Debug check (optional, remove if you want)
+        console.log('User Object:', result.user);
+        
+        if (result.success && result.user) {
+            console.log('✅ Login successful:', result.user);
+
+            // ✅ localStorage এ শুধু email, name, role save
+            localStorage.setItem("userEmail", result.user.email);
+            localStorage.setItem("userName", result.user.name);
+            localStorage.setItem("userRole", result.user.role);
+
+            // Store authentication data in sessionStorage
+            const authData = {
+                isLoggedIn: true,
+                token: result.token,
+                user: JSON.stringify(result.user),
+                loginTime: new Date().getTime()
+            };
+            
+            Object.keys(authData).forEach(key => {
+                sessionStorage.setItem(key, authData[key]);
+            });
+            
+            // Show success with user info
+            showSuccess(result.message);
+            
+            // Redirect based on user role
+            setTimeout(() => {
+                const userRole = result.user.role;
+                
+                if (userRole === 'admin') {
+                    console.log('Redirecting admin to admin panel');
+                    showSuccess(`${result.user.avatar} Redirecting to Admin Panel...`);
+                    window.location.href = 'admin.html';
+
+                } else {
+                    console.log('Redirecting customer to dashboard');
+                    showSuccess(`${result.user.avatar} Redirecting to Dashboard...`);
+                    window.location.href = 'userpannel.html';
+                }
+            }, 2000);
+            
+        } else {
+            console.log('❌ Login failed:', result.message);
+            showError(result.message);
+            clearPassword();
+        }
+        
+    } catch (error) {
+        console.error('💥 Login Error:', error);
+        showError('Network error. Please check your connection.');
+        clearPassword();
+    } finally {
+        setLoading(false);
+    }
+});
+
+
+
+        // 🛠️ Utility Functions
+        function setLoading(loading) {
+            loginBtn.disabled = loading;
+            loadingSpinner.style.display = loading ? 'inline-block' : 'none';
+            loginText.textContent = loading ? 'Signing in...' : 'Sign In';
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        function clearPassword() {
+            document.getElementById('password').value = '';
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // 🔒 Check Existing Authentication
+        //page load হলে আগের session check করে।
+        function checkExistingAuth() {
+            const token = sessionStorage.getItem('token');
+            const user = sessionStorage.getItem('user');
+            
+            if (token && user) {
+                const userData = JSON.parse(user);
+                showSuccess(`Already logged in as ${userData.name} ${userData.avatar}`);
+                
+                setTimeout(() => {
+                    if (userData.role === 'admin') {
+                        console.log('👑 Redirecting existing admin session');
+                    } else {
+                        console.log('👤 Redirecting existing user session');
+                    }
+                }, 1500);
+            }
+        }
+
+        // 🔄 Forgot Password Handler
+        function showForgotPassword() {
+            const email = document.getElementById('email').value;
+            if (email && isValidEmail(email)) {
+                showSuccess(`Password reset link sent to ${email} 📧`);
+            } else {
+                showError('Please enter your email address first');
+                document.getElementById('email').focus();
+            }
+        }
+
+        // 🎬 Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✨ Aura Skin Universal Login System Ready!');
+            console.log('🎯 Single login for all users');
+            console.log('🔄 Role-based redirecting enabled');
+            
+            checkExistingAuth();
+            
+            // Auto-fill first demo credentials for easy testing
+            fillCredentials('user@aura.com', 'user123');
+        });
+
+        // 🌐 Global API Access
+        window.auraAPI = auraAPI;
+        window.fillCredentials = fillCredentials;
+        window.showForgotPassword = showForgotPassword;
+        
+        console.log('🚀 Universal Login System Loaded Successfully!');
+    </script>
+</body>
+</html>
